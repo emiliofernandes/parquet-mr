@@ -6,17 +6,17 @@ jdk:
   - openjdk8
   - openjdk11
 
-env:
-  - HADOOP_PROFILE=default TEST_CODECS=uncompressed,brotli
-  - HADOOP_PROFILE=default TEST_CODECS=gzip,snappy
+#env:
+#  - HADOOP_PROFILE=default TEST_CODECS=uncompressed,brotli
+#  - HADOOP_PROFILE=default TEST_CODECS=gzip,snappy
   
 jobs:
   include:
   - name: Linux aarch64
-    group: edge
-    arch: arm64-graviton2
-    virt: vm
+    arch: arm64
+    jdk: openjdk11
     env: HADOOP_PROFILE=default TEST_CODECS=gzip,snappy,uncompressed,brotli
 
 install: mvn install --batch-mode -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true | pv -fbi 60 > mvn_install.log || (cat mvn_install.log && false)
+before_script: lscpu
 script: mvn verify --batch-mode javadoc:javadoc -P travis,$HADOOP_PROFILE
