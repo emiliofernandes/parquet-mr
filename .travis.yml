@@ -4,17 +4,21 @@ language: java
 jdk: openjdk11
 env: HADOOP_PROFILE=default TEST_CODECS=gzip,snappy,uncompressed
 
+cache:
+  directories:
+  - $HOME/.m2
+
 before_install:
   - lscpu
   - bash dev/travis-before_install.sh
+  - export JDK_BIN=$(dirname $(which java))   # for javadoc
+  - export PATH="$JDK_BIN:$PATH"
     
 install: 
   - sudo apt-get update -qq
   - sudo apt-get install -qq maven
-  - mvn install --batch-mode -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true | pv -fbi 60 > mvn_install.log || (cat mvn_install.log && false)
-
-before_script: 
   - java -version
   - mvn -version
+  - mvn install --batch-mode -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true | pv -fbi 60 > mvn_install.log || (cat mvn_install.log && false)
   
 script: mvn verify --batch-mode javadoc:javadoc -P travis,$HADOOP_PROFILE
