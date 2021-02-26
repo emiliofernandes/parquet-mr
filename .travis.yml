@@ -11,7 +11,7 @@ cache:
 before_install:
   - lscpu
   #- bash dev/travis-before_install.sh
-  - tree /usr/lib/jvm/
+  - ls -laR /usr/lib/jvm/
   - exit 1
     
 install: 
