@@ -10,9 +10,8 @@ cache:
 
 before_install:
   - lscpu
-  #- bash dev/travis-before_install.sh
-  - ls -laR /usr/lib/jvm/
-  - exit 1
+  - bash dev/travis-before_install.sh
+  - export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-11-hotspot-arm64"
     
 install: 
   - sudo apt-get update -qq
