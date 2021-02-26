@@ -11,13 +11,8 @@ cache:
 before_install:
   - lscpu
   #- bash dev/travis-before_install.sh
-  - export JDK_BIN=$(dirname $(which java))   # for javadoc
-  - echo "JDK_BIN=$JDK_BIN"
-  - ls -la $JDK_BIN
-  - which javadoc
-  - env
+  - tree /usr/lib/jvm/
   - exit 1
-  - export PATH="$JDK_BIN:$PATH"
     
 install: 
   - sudo apt-get update -qq
